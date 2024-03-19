@@ -13,7 +13,7 @@
 NAME		=	libft.a
 
 COMPILER	=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -g3
+CFLAGS		=	-Wall -Wextra -Werror -g
 AR			=	ar rcs
 
 INCLUDE		=	libft.h
