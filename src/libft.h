@@ -13,9 +13,15 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10
+# endif
+
+# define MAX_FD 2048
 # include <stdlib.h>
 # include <stddef.h>
 # include <string.h>
+# include <unistd.h>
 # include <limits.h>
 
 typedef struct s_list
