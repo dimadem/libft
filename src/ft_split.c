@@ -6,16 +6,16 @@
 /*   By: dmdemirk <dmdemirk@student.42london.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 15:55:11 by dmdemirk          #+#    #+#             */
-/*   Updated: 2023/11/19 21:35:41 by dmdemirk         ###   ########.fr       */
+/*   Updated: 2024/04/04 17:22:54 by dmdemirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int count_words(const char *s, char c)
+static int	count_words(const char *s, char c)
 {
-	int words;
-	int i;
+	int	words;
+	int	i;
 
 	words = 0;
 	i = 0;
@@ -30,11 +30,11 @@ static int count_words(const char *s, char c)
 	return (words);
 }
 
-static char **handle_memo_allocation(char **strs, const char *s, char c)
+static char	**handle_memo_allocation(char **strs, const char *s, char c)
 {
-	int count;
-	int i;
-	int x;
+	int	count;
+	int	i;
+	int	x;
 
 	count = 0;
 	i = 0;
@@ -43,7 +43,8 @@ static char **handle_memo_allocation(char **strs, const char *s, char c)
 	{
 		if (s[i] != c)
 			count++;
-		if ((s[i] == c && i > 0 && s[i - 1] != c) || (s[i] != c && s[i + 1] == '\0'))
+		if ((s[i] == c && i > 0 && s[i - 1] != c)
+			|| (s[i] != c && s[i + 1] == '\0'))
 		{
 			strs[x] = (char *)malloc(sizeof(char) * (count + 1));
 			if (!strs[x])
@@ -56,11 +57,11 @@ static char **handle_memo_allocation(char **strs, const char *s, char c)
 	return (strs);
 }
 
-static char **copy_strings(char **strs, const char *s, char c)
+static char	**copy_strings(char **strs, const char *s, char c)
 {
-	int i;
-	int x;
-	int y;
+	int	i;
+	int	x;
+	int	y;
 
 	i = 0;
 	x = 0;
@@ -82,9 +83,9 @@ static char **copy_strings(char **strs, const char *s, char c)
 	return (strs);
 }
 
-static char **free_2d_arr(char **strs)
+static char	**free_2d_arr(char **strs)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (strs[i])
@@ -97,16 +98,14 @@ static char **free_2d_arr(char **strs)
 	return (NULL);
 }
 
-char **ft_split(char const *s, char c)
+char	**ft_split(char const *s, char c)
 {
-	char **strs;
-	int wordcount;
+	char	**strs;
+	int		wordcount;
 
 	if (!s)
 	{
 		strs = (char **)malloc(sizeof(char *));
-		if (!strs)
-			return (NULL);
 		strs[0] = NULL;
 		return (strs);
 	}
