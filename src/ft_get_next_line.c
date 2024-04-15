@@ -18,7 +18,8 @@ char *get_line(c_list *list);
 void check_list(c_list **list);
 void append(c_list **list, char *buf, int fd);
 
-char *get_next_line(int fd) {
+char *ft_get_next_line(int fd)
+{
   static c_list *list[4096];
   char *next_line;
 
@@ -32,7 +33,8 @@ char *get_next_line(int fd) {
   return (next_line);
 }
 
-void check_list(c_list **list) {
+void check_list(c_list **list)
+{
   c_list *last_node;
   c_list *clean_node;
   int i;
@@ -56,7 +58,8 @@ void check_list(c_list **list) {
   dealloc(list, clean_node, buf);
 }
 
-char *get_line(c_list *list) {
+char *get_line(c_list *list)
+{
   int str_len;
   char *next_str;
   if (!list)
@@ -69,7 +72,8 @@ char *get_line(c_list *list) {
   return (next_str);
 }
 
-void append(c_list **list, char *buf, int fd) {
+void append(c_list **list, char *buf, int fd)
+{
   c_list *new_node;
   c_list *last_node;
 
@@ -85,15 +89,18 @@ void append(c_list **list, char *buf, int fd) {
   new_node->next = NULL;
 }
 
-void create_list(c_list **list, int fd) {
+void create_list(c_list **list, int fd)
+{
   int char_count;
   char *buf;
-  while (!find_newline(list[fd])) {
+  while (!find_newline(list[fd]))
+  {
     buf = malloc(BUFFER_SIZE + 1);
     if (!buf)
       return;
     char_count = read(fd, buf, BUFFER_SIZE);
-    if (char_count < 0) {
+    if (char_count < 0)
+    {
       free(buf);
       return;
     }
