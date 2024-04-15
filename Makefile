@@ -16,7 +16,8 @@ COMPILER	=	gcc
 CFLAGS		=	-Wall -Wextra -Werror -g
 AR			=	ar rcs
 
-INCLUDE		=	libft.h
+INCLUDE		=	libft.h \
+				get_next_line.h \
 
 SOURCES	=			ft_atoi.c			\
 					ft_bzero.c			\
@@ -53,6 +54,7 @@ SOURCES	=			ft_atoi.c			\
 					ft_substr.c			\
 					ft_tolower.c		\
 					ft_toupper.c		\
+					get_next_line_utils.c	\
 
 SOURCES_BONUS	=	ft_lstadd_back.c	\
 					ft_lstadd_front.c	\
@@ -77,12 +79,14 @@ all: $(NAME) bonus
 
 $(NAME): $(OBJS)
 	@ar rc $(NAME) $(OBJS)
+	
 
 %.o: $(SRC_DIR)/%.c $(INCLUDE)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 bonus: $(OBJS) $(OBJS_BONUS)
-	ar rc $(NAME) $(OBJS) $(OBJS_BONUS)
+	@ar rc $(NAME) $(OBJS) $(OBJS_BONUS)
+	@echo "libft.a created"
 
 clean:
 	@cd $(SRC_DIR)
@@ -91,6 +95,7 @@ clean:
 fclean: clean
 	@cd $(SRC_DIR)
 	@rm -f $(NAME)
+	@echo "libft.a removed"
 
 re: fclean
 	@make
