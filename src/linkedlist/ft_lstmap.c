@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
+/*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmdemirk <dmdemirk@student.42london.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/18 15:34:29 by dmdemirk          #+#    #+#             */
-/*   Updated: 2023/11/18 15:37:10 by dmdemirk         ###   ########.fr       */
+/*   Created: 2023/11/18 17:20:54 by dmdemirk          #+#    #+#             */
+/*   Updated: 2023/11/18 18:32:05 by dmdemirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "libft.h"
+#include "../../inc/libft.h"
 
-void	ft_putendl_fd(char *s, int fd)
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	if (s)
+	t_list	*new_list;
+
+	if (!lst)
+		return ((void *)0);
+	new_list = ft_lstnew(f(lst->content));
+	if (!new_list)
 	{
-		write(fd, s, ft_strlen(s));
-		write(fd, "\n", 1);
+		ft_lstclear(&new_list, del);
+		return ((void *)0);
 	}
+	new_list->next = ft_lstmap(lst->next, f, del);
+	return (new_list);
 }

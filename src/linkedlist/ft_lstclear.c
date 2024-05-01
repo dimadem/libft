@@ -1,39 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmdemirk <dmdemirk@student.42london.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/18 15:37:31 by dmdemirk          #+#    #+#             */
-/*   Updated: 2023/11/19 19:26:17 by dmdemirk         ###   ########.fr       */
+/*   Created: 2023/11/18 17:16:45 by dmdemirk          #+#    #+#             */
+/*   Updated: 2023/11/18 17:42:25 by dmdemirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "libft.h"
+#include <stdlib.h>
+#include "../../inc/libft.h"
 
-void	ft_putnbr_fd(int nb, int fd)
+void	ft_lstclear(t_list **lst, void (*del)(void *))
 {
-	if (nb == -2147483648)
+	t_list	*next;
+
+	if (!lst || !del)
+		return ;
+	while (*lst)
 	{
-		ft_putchar_fd('-', fd);
-		ft_putchar_fd('2', fd);
-		ft_putnbr_fd(147483648, fd);
+		next = (*lst)->next;
+		del((*lst)->content);
+		free(*lst);
+		*lst = next;
 	}
-	else if (nb <= -1)
-	{
-		ft_putchar_fd('-', fd);
-		nb = -nb;
-		ft_putnbr_fd(nb, fd);
-	}
-	else if (nb >= 10)
-	{
-		ft_putnbr_fd(nb / 10, fd);
-		ft_putnbr_fd(nb % 10, fd);
-	}
-	else
-	{
-		ft_putchar_fd(nb + '0', fd);
-	}
+	*lst = ((void *)0);
 }

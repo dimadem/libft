@@ -12,7 +12,7 @@
 
 #include <stddef.h>
 #include <stdlib.h>
-#include "libft.h"
+#include "../../inc/libft.h"
 
 static int	ft_isinset(char c, const char *set)
 {

@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strmapi.c                                       :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmdemirk <dmdemirk@student.42london.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/18 15:20:28 by dmdemirk          #+#    #+#             */
-/*   Updated: 2023/11/18 19:01:46 by dmdemirk         ###   ########.fr       */
+/*   Created: 2023/11/13 17:57:49 by dmdemirk          #+#    #+#             */
+/*   Updated: 2023/11/20 17:41:15 by dmdemirk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "libft.h"
+#include "../../inc/libft.h"
 
-char	*ft_strmapi(char const *s, char (f)(unsigned int, char))
+char	*ft_strnstr(const char *big, const char *little, size_t len)
 {
-	size_t	counter;
-	size_t	length;
-	char	*result;
+	size_t	i;
+	size_t	little_len;
 
-	if (!s)
+	i = 0;
+	little_len = ft_strlen(little);
+	if (little_len == 0)
+		return ((char *)big);
+	if (len == 0)
 		return ((void *)0);
-	length = ft_strlen(s);
-	result = (char *)malloc(length + 1);
-	if (!result)
-		return ((void *)0);
-	counter = 0;
-	while (counter < length)
+	while (big[i] != '\0' && i + little_len <= len)
 	{
-		result[counter] = f(counter, s[counter]);
-		counter++;
+		if (ft_strncmp((const char *)(big + i), little, little_len) == 0)
+		{
+			return ((char *)big + i);
+		}
+		i++;
 	}
-	result[counter] = '\0';
-	return (result);
+	return ((void *)0);
 }

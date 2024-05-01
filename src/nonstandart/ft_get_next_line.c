@@ -10,7 +10,39 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../inc/libft.h"
+
+char        *ft_get_next_line(int fd);
+static char	*extract_line(char **saved);
+static char	*read_from_fd(int fd, char *saved, char *buf);
+char        *ft_strjoin_gnl(char *s1, char const *s2);
+
+char	*ft_get_next_line(int fd)
+{
+	static char	*saved = NULL;
+	char		*line;
+	char		*buf;
+
+	if (fd < 0 || BUFFER_SIZE < 1 || fd > 4095)
+		return (NULL);
+	buf = malloc(BUFFER_SIZE + 1);
+	if (!buf)
+		return (NULL);
+	saved = read_from_fd(fd, saved, buf);
+	if (!saved)
+	{
+		free(saved);
+		saved = NULL;
+		return (NULL);
+	}
+	line = extract_line(&saved);
+	if (line == NULL)
+	{
+		free(saved);
+		saved = NULL;
+	}
+	return (line);
+}
 
 char	*ft_strjoin_gnl(char *s1, char const *s2)
 {
@@ -85,31 +117,4 @@ static char	*extract_line(char **saved)
 		return (line);
 	}
 	return (NULL);
-}
-
-char	*ft_get_next_line(int fd)
-{
-	static char	*saved = NULL;
-	char		*line;
-	char		*buf;
-
-	if (fd < 0 || BUFFER_SIZE < 1 || fd > 4095)
-		return (NULL);
-	buf = malloc(BUFFER_SIZE + 1);
-	if (!buf)
-		return (NULL);
-	saved = read_from_fd(fd, saved, buf);
-	if (!saved)
-	{
-		free(saved);
-		saved = NULL;
-		return (NULL);
-	}
-	line = extract_line(&saved);
-	if (line == NULL)
-	{
-		free(saved);
-		saved = NULL;
-	}
-	return (line);
 }

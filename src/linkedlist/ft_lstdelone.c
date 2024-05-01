@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "libft.h"
+#include <complex.h>
+#include "../../inc/libft.h"
 
 void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {

@@ -10,92 +10,107 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME		=	libft.a
+# Colors
+DEF_COLOR	=	\033[0;39m
+GRAY		=	\033[0;90m
+RED			=	\033[0;91m
+GREEN		=	\033[0;92m
+YELLOW		=	\033[0;93m
+BLUE		=	\033[0;94m
+MAGENTA		=	\033[0;95m
+CYAN		=	\033[0;96m
+WHITE		=	\033[0;97m
 
-COMPILER	=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -g
-AR			=	ar rcs
+# Program
+NAME			=	libft.a
 
-INCLUDE		=	libft.h \
-				get_next_line.h \
+# Comands
+COMPILER		=	cc
+CFLAGS			=	-Wall -Wextra -Werror -g
+AR				=	ar rcs
+RM				=	rm -rf
 
-SOURCES	=			ft_atoi.c			\
-					ft_bzero.c			\
-					ft_calloc.c			\
-					ft_get_next_line.c	\
-					ft_isalnum.c		\
-					ft_isalpha.c		\
-					ft_isascii.c		\
-					ft_isdigit.c		\
-					ft_isprint.c		\
-					ft_itoa.c			\
-					ft_memchr.c			\
-					ft_memcmp.c			\
-					ft_memcpy.c			\
-					ft_memmove.c		\
-					ft_memset.c			\
-					ft_putchar_fd.c		\
-					ft_putendl_fd.c		\
-					ft_putnbr_fd.c		\
-					ft_putstr_fd.c		\
-					ft_split.c			\
-					ft_strchr.c			\
-					ft_strdup.c			\
-					ft_striteri.c		\
-					ft_strjoin.c		\
-					ft_strlcat.c		\
-					ft_strlcpy.c		\
-					ft_strlen.c			\
-					ft_strmapi.c		\
-					ft_strncmp.c		\
-					ft_strnstr.c		\
-					ft_strrchr.c		\
-					ft_strtrim.c		\
-					ft_substr.c			\
-					ft_tolower.c		\
-					ft_toupper.c		\
-					get_next_line_utils.c	\
+# Structure
+INCLUDES				=	-I./inc
 
-SOURCES_BONUS	=	ft_lstadd_back.c	\
-					ft_lstadd_front.c	\
-					ft_lstclear.c		\
-					ft_lstdelone.c		\
-					ft_lstiter.c		\
-					ft_lstlast.c		\
-					ft_lstmap.c			\
-					ft_lstnew.c			\
-					ft_lstsize.c		\
+SRC_DIR					=	./src
+CTYPE_DIR				=	$(SRC_DIR)/ctype
+LINKEDLIST_DIR			=	$(SRC_DIR)/linkedlist
+NONSTANDART_DIR			=	$(SRC_DIR)/nonstandart
+STDIO_DIR				=	$(SRC_DIR)/stdio/ft_printf
+STDLIB_DIR				=	$(SRC_DIR)/stdlib
+STRING_DIR				=	$(SRC_DIR)/string
 
-SRC_DIR = ./src
-
-SOURCES := $(addprefix $(SRC_DIR)/, $(SOURCES))
-SOURCES_BONUS := $(addprefix $(SRC_DIR)/, $(SOURCES_BONUS))
-
-OBJS = $(patsubst %.c, %.o, $(SOURCES))
-OBJS_BONUS = $(patsubst %.c, %.o, $(SOURCES_BONUS))
+CTYPE_SOURCES			=	$(wildcard $(CTYPE_DIR)/*.c)
+LINKEDLIST_SOURCES		=	$(wildcard $(LINKEDLIST_DIR)/*.c)
+NONSTANDART_SOURCES		=	$(wildcard $(NONSTANDART_DIR)/*.c)
+STDIO_SOURCES			=	$(wildcard $(STDIO_DIR)/*.c)
+STDLIB_SOURCES			=	$(wildcard $(STDLIB_DIR)/*.c)
+STRING_SOURCES			=	$(wildcard $(STRING_DIR)/*.c)
 
 
-all: $(NAME) bonus
+SOURCES					=	$(CTYPE_SOURCES) \
+							$(LINKEDLIST_SOURCES) \
+							$(NONSTANDART_SOURCES) \
+							$(STDIO_SOURCES) \
+							$(STDLIB_SOURCES) \
+							$(STRING_SOURCES) \
 
-$(NAME): $(OBJS)
-	@ar rc $(NAME) $(OBJS)
-	
+# Build
+BUILD_DIR				= ./build
+CTYPE_OBJECTS			= $(patsubst $(CTYPE_DIR)/%.c, $(BUILD_DIR)/src/ctype/%.o, $(CTYPE_SOURCES))
+LINKEDLIST_OBJECTS		= $(patsubst $(LINKEDLIST_DIR)/%.c, $(BUILD_DIR)/src/linkedlist/%.o, $(LINKEDLIST_SOURCES))
+NONSTANDART_OBJECTS		= $(patsubst $(NONSTANDART_DIR)/%.c, $(BUILD_DIR)/src/nonstandart/%.o, $(NONSTANDART_SOURCES))
+STDIO_OBJECTS			= $(patsubst $(STDIO_DIR)/%.c, $(BUILD_DIR)/src/stdio/%.o, $(STDIO_SOURCES))
+STDLIB_OBJECTS			= $(patsubst $(STDLIB_DIR)/%.c, $(BUILD_DIR)/src/stdlib/%.o, $(STDLIB_SOURCES))
+STRING_OBJECTS			= $(patsubst $(STRING_DIR)/%.c, $(BUILD_DIR)/src/string/%.o, $(STRING_SOURCES))
 
-%.o: $(SRC_DIR)/%.c $(INCLUDE)
-	@$(CC) $(CFLAGS) -c $< -o $@
+OBJECTS					=	$(CTYPE_OBJECTS) \
+							$(LINKEDLIST_OBJECTS) \
+							$(NONSTANDART_OBJECTS) \
+							$(STDIO_OBJECTS) \
+							$(STDLIB_OBJECTS) \
+							$(STRING_OBJECTS) \
 
-bonus: $(OBJS) $(OBJS_BONUS)
-	@ar rc $(NAME) $(OBJS) $(OBJS_BONUS)
-	@echo "libft.a created"
+all: $(NAME)
+
+$(NAME): $(OBJECTS)
+	@$(AR) $(NAME) $(OBJECTS)
+	@echo "$(GREEN)---------------$(DEF_COLOR)"
+	@echo "$(GREEN)libft.a created$(DEF_COLOR)"
+
+$(BUILD_DIR)/src/ctype/%.o: $(CTYPE_DIR)/%.c
+	@mkdir -p $(@D)
+	@$(COMPILER) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(BUILD_DIR)/src/linkedlist/%.o: $(LINKEDLIST_DIR)/%.c
+	@mkdir -p $(@D)
+	@$(COMPILER) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(BUILD_DIR)/src/nonstandart/%.o: $(NONSTANDART_DIR)/%.c
+	@mkdir -p $(@D)
+	@$(COMPILER) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(BUILD_DIR)/src/stdio/%.o: $(STDIO_DIR)/%.c
+	@mkdir -p $(@D)
+	@$(COMPILER) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(BUILD_DIR)/src/stdlib/%.o: $(STDLIB_DIR)/%.c
+	@mkdir -p $(@D)
+	@$(COMPILER) $(CFLAGS) $(INCLUDES) -c $< -o $@
+
+$(BUILD_DIR)/src/string/%.o: $(STRING_DIR)/%.c
+	@mkdir -p $(@D)
+	@$(COMPILER) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	@cd $(SRC_DIR)
-	@rm -f $(OBJS) $(OBJS_BONUS)
+	@$(RM) $(BUILD_DIR)
+	@echo "$(GRAY)files.o removed$(DEF_COLOR)"
+
 
 fclean: clean
-	@cd $(SRC_DIR)
-	@rm -f $(NAME)
-	@echo "libft.a removed"
+	@$(RM) $(NAME)
+	@echo "$(RED)libft.a removed$(DEF_COLOR)"
 
 re: fclean
 	@make
